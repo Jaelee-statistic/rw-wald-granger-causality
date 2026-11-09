@@ -2,9 +2,9 @@
 
 ## Source and changes
 
-The baseline is the attached `real_data_WB_wald_test_v1.0_review_abrupt설정_데이터추가.R`, not the earlier condensed implementation. A local verification copy redirects only its private paths. This private baseline is not published because the supplied original contains personal directory names.
+The baseline is the attached original R research script supplied by the author, not the earlier condensed implementation. A local verification copy redirects only its private paths. This private baseline is not published because the supplied original contains personal directory names.
 
-The primary public script adds English explanatory comments and redirects the two data paths. Private paths in inactive plotting comments are also sanitized. No executable statements are removed, reordered, refactored, or corrected. The original package imports, original Korean comments, and inactive code remain.
+The primary public script translates the original comments into English, adds English explanatory comments, and redirects the two data paths. Private paths in inactive plotting comments are also sanitized. No executable statements are removed, reordered, refactored, or corrected. The original package imports and inactive code remain. All original Korean comments have been replaced with English explanations. Comment-only corrections clarify array dimensions and the stored exceedance indicators without changing executable statements.
 
 ## Completed checks
 
@@ -27,3 +27,7 @@ The installed R environment lacks 18 of the 19 imported packages (only MASS is p
 For full verification, install the dependencies and run each complete script in a separate fresh R process with identical R/package versions and RNG settings. Compare all original result objects, both covariance diagnostics, both 199-element exceedance vectors, and the final `.Random.seed` exactly. Record `sessionInfo()` for both runs. The old archived CSVs are not new validation evidence for this primary script.
 
 No comparison against a published paper table has been performed. GitHub publication is a separate action requiring the author's approval.
+
+## English-only documentation update
+
+After translating the comments, the complete parsed-program equality and scoped RNG checks were rerun and passed. All tracked public text files were scanned for Hangul; no Korean text remains in the current files. The full-analysis verification limitations above remain unchanged.

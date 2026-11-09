@@ -1,6 +1,6 @@
 # RW-Wald Granger-causality analysis: original research script
 
-`original_analysis.R` is the primary script. It preserves the author's supplied R program, including its calculation order, functions, preprocessing, intermediate calculations, residual conventions, fixed-coefficient analysis, and random-number generation. Changes are limited to repository-relative file paths and additional English comments. Original comments and inactive plotting examples remain available.
+`original_analysis.R` is the primary script. It preserves the author's supplied R program, including its calculation order, functions, preprocessing, intermediate calculations, residual conventions, fixed-coefficient analysis, and random-number generation. Changes are limited to repository-relative file paths and English translations and explanatory comments. Inactive plotting examples remain available.
 
 ## Run
 
