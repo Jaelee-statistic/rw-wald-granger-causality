@@ -1,30 +1,47 @@
-# Random-weight Wald test for Granger causality
+# RW-Wald Granger-causality analysis: original research script
 
-This repository reproduces the supplied empirical R script for a bivariate VAR(1) in first differences. The question is whether lagged changes in the balance on services (BOPBSV) help predict changes in the merchandise balance (BOPBM), conditional on its own lag.
+`original_analysis.R` is the primary script. It preserves the author's supplied R program, including its calculation order, functions, preprocessing, intermediate calculations, residual conventions, fixed-coefficient analysis, and random-number generation. Changes are limited to repository-relative file paths and additional English comments. Original comments and inactive plotting examples remain available.
 
-## Run from the repository root
+## Run
 
-Use base R (tested on Windows with R 4.6.0). No additional packages or downloads are required.
+Open a fresh R session with this repository as the working directory. The original program clears the workspace. Install its original dependencies once:
 
 ```sh
+Rscript --vanilla install_packages.R
 Rscript --vanilla run.R
-Rscript --vanilla tests/verify.R
 ```
 
-The first command prints the four analysis rows and writes results/summary.csv, results/coefficients.csv (response rows, predictor columns), and results/bootstrap.csv (one row per draw). The second checks the original outputs and indicators, dates, lag alignment, coefficient orientation, covariance and bootstrap tail calculation. The included result files were generated with these settings.
+Alternatively, in R from the repository root:
 
-## Data and timing
+```r
+source("original_analysis.R", echo = TRUE, encoding = "UTF-8")
+```
 
-The two tab-delimited files in data/ are the supplied raw files with shorter names. Each has 176 quarterly levels from 1970 Q1 to 2013 Q4. Input dates are already ISO dates. The loader sorts and validates the quarterly grids and requires the dates to match before differencing. The original constructs a merged table but forms its model matrix by position. Columns are ordered BOPBM, BOPBSV. The 175 responses start in 1970 Q2. Following the source, the first lag row is zero and subsequent rows contain the preceding difference. The first response therefore contributes to residual covariance but carries zero weight in the coefficient normal equations. There is no intercept or trend.
+The wrapper echoes the original expressions so the final results are visible. It does not replace the analysis with functions or change its calculations. Package installation is separate from the analysis. All 19 original imports remain, including packages not directly used by the final statistics. Internet access and, depending on platform/package availability, build tools may be needed for installation.
 
-## Statistical audit
+## Preserved behavior
 
-* The equation is y_t = A z_t + u_t with column vectors. The data matrices Y and Z are 175 by 2. The original calculates A in response-by-predictor orientation but predicts with Z A. The legacy row reproduces this operation. The transpose_corrected row predicts with Z A' so the fitted residuals satisfy the OLS normal equations. Both rows use the same A and bootstrap estimates.
-* Column-major vec(A) is (A11,A21,A12,A22). The one-degree-of-freedom null is A12 = 0, services to merchandise. The observed test uses unrestricted OLS. The bootstrap approximates the null fluctuation by centering A*12 at the estimated A12. It holds the lagged design and responses fixed and reweights the estimating equations. It does not simulate a restricted VAR.
-* With G = Z'Z/n and Omega = U'U/n, the source uses J = G tensor inverse(Omega). The contrast variance factor d is inverse(G)[2,2] times Omega[1,1]. Both observed and bootstrap statistics use the same observed d. The source computes a bootstrap-specific J but never uses it. Half-sample covariances likewise do not enter its reported tests. The public implementation omits those unused calculations. The chi-square column is the source's conventional reference, not a separately validated heteroskedasticity-robust calibration.
-* Each of 199 draws uses independent unit-mean exponential weights (block length one), seed 165. The unused two-point draws are retained in their original sequence. The source uses the strict upper tail, count(Q* > Q)/199, with no plus-one adjustment. Because the common positive scale cancels in each comparison, correcting only the residual transpose changes both Wald scales but preserves every bootstrap exceedance mathematically.
-* Rows with fixed=TRUE reproduce a separate source diagnostic that substitutes (0.43,0,-1.02,-0.01) for vec(A) in the observed numerator and bootstrap center. Its origin is unspecified. Use fixed=FALSE for the estimated-coefficient test. The last column named last in the summary is the final bootstrap statistic, a diagnostic only.
+- Seed `165`, `199` replications, sample size `175`, VAR order `1`, and original initial zero lag row.
+- Original date conversion, sorting, numeric-column differencing, NA removal, merge, and positional construction of the model matrix.
+- Original untransposed fitted-value multiplication in both OLS and bootstrap calculations. No transpose correction is applied.
+- First-half and second-half residual means and covariance matrices, with their original loops and divisors.
+- Full fixed coefficient vector `(0.43, 0, -1.02, -0.01)` and its separate statistics.
+- Two-point random draw followed by exponential draw in every weight block, including the unused two-point weights.
+- Bootstrap residual covariance and information-matrix calculations, even where not used by subsequent test statistics.
+- Original matrix inversion and multiplication order, strict `>` exceedance comparisons, and division by `199` without a plus-one adjustment.
 
-## Verification scope
+The final eight expressions display `Q_s_real`, `Q_s_real_pv`, `Q_WB_s_real_199`, `Q_WB_s_pvalue_real_199`, and their four fixed-coefficient counterparts. `Q_WB_s_real_199` is the last bootstrap statistic, not the entire distribution. Half-sample diagnostics remain available as `Omega_front` and `Omega_back` in an interactive session.
 
-The reference CSVs under tests/ were generated from the supplied script's original loops. The reference run redirected the two input paths, replaced the sorting/differencing pipeline with equivalent base R operations for these complete data, removed package imports and skipped the unused external wald.test diagnostic. The reference preserved the empirical statistic formulas and random draws. Both branches match the original Wald values, chi-square tails, final draw statistics, exceedance counts and empirical p-values within numeric tolerance, with exact matching indicators for all draws in legacy mode. The corrected observed Wald is separately checked against equation-wise least squares and the full Kronecker covariance. This comparison establishes reproduction of the supplied script. Agreement with a published table and data redistribution terms require author confirmation.
+## Data
+
+`data/bopbm_rawdata_2.txt` and `data/bopbsv_rawdata_2.txt` are byte-for-byte copies of the supplied attachments; only attachment filename suffixes were removed. No dates, values, delimiters, or line endings were rewritten. SHA-256 hashes are recorded in `data/SHA256SUMS`. Use these supplied snapshots for reproduction rather than downloading updated series.
+
+The original script's private absolute paths have been replaced with `data/...`. Inactive plot examples use local `plot_1.png` through `plot_4.png` paths. Plotting remains commented out as in the original.
+
+## Earlier condensed implementation
+
+The previous repository contents are retained under `archive/condensed/` for history. They are **not the primary reproduction script**. That implementation refactors the original and includes a `transpose_corrected` branch; it omits original intermediate calculations. Its README, tests, and saved results refer only to that archived implementation. To inspect its old commands, first change the working directory to `archive/condensed/`.
+
+## Verification
+
+See `VERIFICATION.md` for the exact checks and limitations. Full numerical equality is not claimed unless the complete original and revised scripts have both run with the same R and package environment. Matching a published table has not been independently established. Bibliographic details and a software/data license are not invented here.

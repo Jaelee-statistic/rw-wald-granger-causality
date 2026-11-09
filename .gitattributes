@@ -1,0 +1,3 @@
+# Preserve the exact bytes of the supplied raw-data snapshots on checkout.
+/data/*.txt -text
+/archive/condensed/** -text

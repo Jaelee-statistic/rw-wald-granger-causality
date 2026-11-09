@@ -1,7 +1,2 @@
-source("model.R")
-result <- run_analysis(make_design())
-dir.create("results", showWarnings = FALSE)
-write.csv(result$summary, "results/summary.csv", row.names = FALSE)
-write.csv(result$draws, "results/bootstrap.csv", row.names = FALSE)
-write.csv(result$A, "results/coefficients.csv")
-print(result$summary, row.names = FALSE)
+# Run from the repository root in a fresh R session.
+source("original_analysis.R", echo = TRUE, encoding = "UTF-8")
