@@ -21,7 +21,7 @@ fit_var <- function(y, z, weights) {
   t(solve(crossprod(z, weights * z), crossprod(z, weights * y)))
 }
 
-run_analysis <- function(design, B = 199L, seed = 165L) {
+run_analysis <- function(design, B = 199L) {
   y <- design$y
   z <- design$z
   n <- nrow(y)
@@ -39,7 +39,6 @@ run_analysis <- function(design, B = 199L, seed = 165L) {
   center <- ifelse(cases$fixed, -1.02, A[1, 2])
   scale <- n / denom[cases$mode]
   observed <- scale * center^2
-  set.seed(seed)
   draws <- matrix(NA_real_, B, nrow(cases))
   for (k in seq_len(B)) {
     w <- numeric(n)
