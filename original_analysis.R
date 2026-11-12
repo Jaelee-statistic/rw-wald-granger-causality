@@ -1,5 +1,5 @@
 # PRIMARY REPRODUCTION SCRIPT
-# Only file paths and explanatory comments differ from the supplied original.
+# Repository changes cover file paths, explanatory comments, and removal of the fixed RNG seed.
 # Run from the repository root; see README.md for packages and execution.
 # Original comments are translated into English; inactive plotting code is retained.
 
@@ -40,9 +40,6 @@ library(svars)
 #------------------------------------------------------------#
 # 1. Load the empirical data
 #------------------------------------------------------------#
-# Original RNG seed. Do not move this statement or insert random draws below it.
-set.seed(165)
-
 # Read the raw data from a text file.
 # Read the supplied merchandise-balance file without changing its contents.
 bopbm_rawdata <- read.table("data/bopbm_rawdata_2.txt",header=T)

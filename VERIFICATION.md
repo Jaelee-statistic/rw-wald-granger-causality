@@ -1,5 +1,9 @@
 # Preservation verification — 2026-11-09
 
+## Fixed seed removal
+
+The analysis now uses the current R random-number state. The verification command below excludes the original `set.seed(165)` from the structural comparison and initializes both weight-loop checks with the same seed. The remaining sections record the earlier verification of the seeded version.
+
 ## Source and changes
 
 The baseline is the attached original R research script supplied by the author, not the earlier condensed implementation. A local verification copy redirects only its private paths. This private baseline is not published because the supplied original contains personal directory names.

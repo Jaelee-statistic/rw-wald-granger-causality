@@ -1,6 +1,6 @@
 # RW-Wald Granger-causality analysis: original research script
 
-`original_analysis.R` is the primary script. It preserves the author's supplied R program, including its calculation order, functions, preprocessing, intermediate calculations, residual conventions, fixed-coefficient analysis, and random-number generation. Changes are limited to repository-relative file paths and English translations and explanatory comments. Inactive plotting examples remain available.
+`original_analysis.R` is the primary script. It preserves the author's calculation order, functions, preprocessing, intermediate calculations, residual conventions, fixed-coefficient analysis, and bootstrap weight distributions and draw order. Repository changes cover relative file paths, English comments, and removal of the fixed RNG seed. Inactive plotting examples remain available.
 
 ## Run
 
@@ -21,7 +21,9 @@ The wrapper echoes the original expressions so the final results are visible. It
 
 ## Preserved behavior
 
-- Seed `165`, `199` replications, sample size `175`, VAR order `1`, and original initial zero lag row.
+The analysis uses the current R random-number state without setting a seed. Each run draws new bootstrap weights, so bootstrap statistics and p-values can vary. To repeat the same draws, call `set.seed()` with your chosen seed before sourcing the script in R.
+
+- `199` replications, sample size `175`, VAR order `1`, and original initial zero lag row.
 - Original date conversion, sorting, numeric-column differencing, NA removal, merge, and positional construction of the model matrix.
 - Original untransposed fitted-value multiplication in both OLS and bootstrap calculations. No transpose correction is applied.
 - First-half and second-half residual means and covariance matrices, with their original loops and divisors.
@@ -44,4 +46,4 @@ The previous repository contents are retained under `archive/condensed/` for his
 
 ## Verification
 
-See `VERIFICATION.md` for the exact checks and limitations. Full numerical equality is not claimed unless the complete original and revised scripts have both run with the same R and package environment. Matching a published table has not been independently established. Bibliographic details and a software/data license are not invented here.
+See `VERIFICATION.md` for the checks and their scope. To compare bootstrap outputs with the original script, use a common initial RNG state and the same R and package environment. Matching a published table has not been independently established. Bibliographic details and a software/data license are not invented here.
