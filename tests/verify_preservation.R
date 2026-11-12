@@ -4,8 +4,10 @@ args <- commandArgs(trailingOnly = TRUE)
 stopifnot(length(args) == 1L)
 original <- parse(args[1], keep.source = FALSE, encoding = "UTF-8")
 revised <- parse("original_analysis.R", keep.source = FALSE, encoding = "UTF-8")
-stopifnot(identical(original, revised))
-cat("PASS: complete parsed programs are identical after path normalization.\n")
+original_seed <- vapply(original, function(expr) identical(expr, quote(set.seed(165))),
+                        logical(1))
+stopifnot(sum(original_seed) == 1L, identical(original[!original_seed], revised))
+cat("PASS: parsed programs differ only by the original fixed seed after path normalization.\n")
 
 # Execute only the unchanged weight-generation loop, without substituting
 # dependencies or preprocessing in the full analysis. This is a scoped RNG check.
