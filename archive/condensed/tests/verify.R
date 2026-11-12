@@ -3,6 +3,8 @@ d <- make_design()
 stopifnot(nrow(d$y) == 175, all(d$z[1, ] == 0),
           all(d$z[-1, ] == head(d$y, -1)),
           identical(as.character(range(d$date)), c("1970-04-01", "2013-10-01")))
+# Match the RNG state used to generate the reference CSVs.
+set.seed(165)
 r <- run_analysis(d)
 ref <- read.csv("tests/original-reference.csv")
 stopifnot(isTRUE(all.equal(r$summary[1:2, names(ref)], ref, check.attributes = FALSE)),
