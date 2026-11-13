@@ -34,6 +34,14 @@ The analysis uses the current R random-number state without setting a seed. Each
 
 The final eight expressions display `Q_s_real`, `Q_s_real_pv`, `Q_WB_s_real_199`, `Q_WB_s_pvalue_real_199`, and their four fixed-coefficient counterparts. `Q_WB_s_real_199` is the last bootstrap statistic, not the entire distribution. Half-sample diagnostics remain available as `Omega_front` and `Omega_back` in an interactive session.
 
+## Main results and supplementary reference results
+
+The main empirical results are `Q_s_real`, `Q_s_real_pv`, and `Q_WB_s_pvalue_real_199`, based on the OLS estimator from the actual sample. These are the primary RW-Wald inference results.
+
+Results with the `_fix` suffix are supplementary reference calculations using the prespecified coefficient vector `(0.43, 0, -1.02, -0.01)`. They are not the main RW-Wald inference results and do not represent a separately estimated model.
+
+This clarification does not change the calculation methods, data, or original R code.
+
 ## Data
 
 `data/bopbm_rawdata_2.txt` and `data/bopbsv_rawdata_2.txt` are byte-for-byte copies of the supplied attachments; only attachment filename suffixes were removed. No dates, values, delimiters, or line endings were rewritten. SHA-256 hashes are recorded in `data/SHA256SUMS`. Use these supplied snapshots for reproduction rather than downloading updated series.
