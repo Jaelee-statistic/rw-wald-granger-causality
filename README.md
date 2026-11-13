@@ -2,6 +2,14 @@
 
 `original_analysis.R` is the primary script. It preserves the author's calculation order, functions, preprocessing, intermediate calculations, residual conventions, fixed-coefficient analysis, and bootstrap weight distributions and draw order. Repository changes cover relative file paths, English comments, and removal of the fixed RNG seed. Inactive plotting examples remain available.
 
+## Related paper
+
+This repository provides the empirical analysis code used in the author's paper:
+
+**[Random-weighting bootstrap correction for Granger causality tests in VAR models with time-varying variance of unknown form (2026)](https://www.sciencedirect.com/science/article/abs/pii/S016517652600234X?via%3Dihub)**
+
+The primary script, `original_analysis.R`, contains the empirical analysis code used in this study.
+
 ## Run
 
 Open a fresh R session with this repository as the working directory. The original program clears the workspace. Install its original dependencies once:
